@@ -12,8 +12,6 @@ let str: string = 'Hello World';
 let x = 42; // number
 ```
 
-### **值(value)**和**类型(type)**
-
 - 每一个值在TS中都是有类型的。例如，`42`是一个值，它的类型是`number`。
 - TS只涉及类型，不涉及值，与值相关的处理，都由JS完成。
 - TS项目中，存在两种代码，使用JS语法的**值代码**和使用TS类型语法的**类型代码**。TS的编译过程，就是将类型代码删除，只保留值代码。
@@ -42,31 +40,46 @@ let x; // any
 
 ### `unknown`类型
 
-- `unknown`类型是**顶层类型(top type)**，任何类型的值都可以赋值给`unknown`类型；`unknown`类型的变量不能赋值给除`any`和`unknown`以外的其他类型。
+> 严格版的`any`类型，需要使用`any`类型的地方，应该优先考虑`unknown`类型。
+
+- `unknown`类型是**顶层类型(top type)**
+- 任何类型的值都可以赋值给`unknown`类型；`unknown`类型的变量不能赋值给除`any`和`unknown`以外的其他类型。
 - 不能直接调用`unknown`类型变量的方法和属性。
 - `unknown`类型支持的运算符：比较运算符(`==`、`===`、`!=`、`!==`、`||`、`&&`、`?`)，取反运算符(`!`)，`typeof`和`instanceof`。
+
 ```ts
-// 1. 任意类型都可以赋值给`unknown`
+// 任意类型都可以赋值给`unknown`
 let x: unknown;
 x = 42;
 x = 'hello';
-x = false;
-// 2. `unknown`不能赋值给其他类型
+// `unknown`不能赋值给其他类型
 let y: unknown = 42;
-let v1: boolean = y; // 报错：Type 'unknown' is not assignable to type 'boolean'.
-let v2: string = y; // 报错：Type 'unknown' is not assignable to type 'string'.
-// 3. 不能调用`unknown`变量的方法和属性
+let v1: boolean = y; // 报错
+let v2: string = y;  // 报错
+// 不能调用`unknown`变量的方法和属性
 let v3: unknown = { name: 'remilia' };
-console.log(v3.name); // 报错：'v3' is of type 'unknown'.
 let v4: unknown = 'hello';
-v4.trim(); // 报错：'v4' is of type 'unknown'.
-let v5: unknown = (n: number) => n + 1;
-console.log(v5(42)); // 报错：'v5' is of type 'unknown'.
+console.log(v3.name); // 报错
+v4.trim();            // 报错
 ```
 
+通过**类型缩小**使用`unknown`类型变量：
 
-- `unknown`类型支持的运算符：`==`、`===`、`!=`、`!==`、`||`、`&&`、`?`、`!`、`typeof`、`instanceof`，其他运算符会直接报错
-- 通过“类型缩小”，`unknown`类型变量才可以使用。
+```ts
+// 类型缩小，即将一个不确定的类型缩小为更明确的类型
+function fn(x: unknown): void {
+  if (typeof x === 'number') {
+    console.log(`x is ${x}, type is number`);
+  } else if (typeof x === 'string') {
+    console.log(`x is ${x}, type is string`);
+  } else {
+    console.log(`unknown types: ${typeof x}`);
+  }
+}
+fn(42);      // x is 42, type is number
+fn('hello'); // x is hello, type is string
+fn(true);    // unknown types: boolean
+```
 
 ### `never`类型
 
