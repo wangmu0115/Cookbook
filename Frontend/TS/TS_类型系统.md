@@ -88,10 +88,10 @@ fn(true);    // unknown types: boolean
 - `never`类型可以赋值给其他任意类型。
 
 ```ts
-// 1. `never`类型无法赋值
+// `never`类型无法赋值
 let x: never;
-// 2. `never`类型
-function fn(x: number | string) {
+// `never`类型用来处理可能类型之后剩余的情况
+function fn1(x: number | string) {
   if (typeof x === 'number') {
     // do something
   } else if (typeof x === 'string') {
@@ -101,8 +101,8 @@ function fn(x: number | string) {
   }
 }
 let n: any = true;
-fn(n); // Error: x should be `number` or `string`.
-// 3. `never`类型可以赋值给任意类型
+fn1(n); // Error: x should be `number` or `string`.
+// `never`类型可以赋值给任意类型
 function fn2(): never {
   throw new Error('Error: return never');
 }
@@ -111,8 +111,138 @@ const str: string = fn2();
 const bool: boolean = fn2();
 ```
 
+### 基本类型
+
+> `boolean`, `string`, `number`, `bigint`, `symbol`, `object`, `undefined`, `null`
+
+#### `boolean`
+
+```ts
+let v1: boolean = true;
+let v2: boolean = false;
+```
+
+#### `string`
+
+```ts
+let v1: string = 'Hello';
+let v2: string = "World"
+let v3: string = `${v1} ${v2}!`;
+```
+
+#### `number`
+
+```ts
+let v1: number = 42;
+let v2: number = 3.14;
+let v3: number = 0xff;
+```
+
+#### `bigint`
+
+> ES2020标准引入的**大整数**，`bigint`和`number`类型不兼容。
+
+```ts
+let v1: bigint = 42n;
+let v2: bigint = 0xffn;
+let v3: bigint = 42;   // 报错
+let v4: bigint = 3.14; // 报错
+```
+
+#### `symbol`
+
+- ES2015标准引入的**原始类型**。
+- `Symbol()`方法返回的Symbol值都是独一无二的。
+- `Symbol.for()`方法可以返回相同的Symbol值。
+
+```ts
+// Symbol()
+let v1: symbol = Symbol();
+let v2: symbol = Symbol();
+console.log(v1 == v2);  // false
+console.log(v1 === v2); // false
+// Symbol.for()
+let v3: symbol = Symbol.for('foo');
+let v4: symbol = Symbol.for('foo');
+console.log(v3 == v4);  // true
+console.log(v3 === v4); // true
+```
+
+##### `unique symbol`
+
+- `symbol`类型没有字面量，只能通过变量引用，所以它**没有值类型**。
+- `unique symbol`是`symbol`的子类型，表示单个的、某个具体的Symbol值，所以它实际上就是**值类型**。
+- `unique symbol`只能通过`const`声明，`const`命令为变量赋值时，默认类型是`unique symbol`。
+
+```ts
+const v1: symbol = Symbol();        // symbol
+const v2: unique symbol = Symbol(); // typeof v2 (unique symbol)
+const v3 = Symbol();                // typeof v3 (unique symbol)
+```
+
+- `unique symbol`类型的变量是**不同的值类型**，不能相互运算。
+- `unique symbol`类型的变量之间不能赋值，只能通过`typeof x`的方式声明另外一个变量的`unique symbol`类型。
+
+```ts
+const us1 = Symbol.for('foo'); // typeof us1
+const us2 = Symbol.for('foo'); // typeof us2
+console.log(us1 === us2); // 报错: typeof us1' and 'typeof us2' have no overlap.
+
+const us3: unique symbol = Symbol();
+const us4: unique symbol = us3; // 报错
+const us5: typeof us3 = us3;    // typeof us3类型
+```
+
+- `unique symbol`类型可以作为属性名，`symbol`类型不可以。
+
+```ts
+const x: unique symbol = Symbol.for('x');
+const y: symbol = Symbol.for('y');
+
+interface Foo {
+  [x]: string; // 正确
+  [y]: string; // 报错
+}
+```
+
+##### 类型推断
+
+- 
 
 
+
+
+
+
+
+
+
+
+
+#### `object`类型
+```ts
+let v1: object = { name: 'remilia' };  // 对象
+let v2: object = [1, 2, 3];            // 数组
+let v3: object = (n: number) => n + 1; // 函数
+```
+
+#### `undefined`和`null`类型
+> `undefined`类型只有一个值`undefined`，表示未定义
+>
+> `null`类型只有一个值`null`，表示为空
+>
+> `noImplicitAny`, `strictNullChecks` 关闭时，推断是any，否则推断是具体的类型
+```ts
+// 第一个是类型，第二个是值
+let v1: undefined = undefined; 
+let v2: null = null;
+```
+
+### 包装对象类型
+> `boolean`, `string`, `number`, `bigint`, `symbol`
+
+
+#### 数组类型
 
 
 
