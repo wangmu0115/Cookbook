@@ -140,7 +140,7 @@ let v3: number = 0xff;
 
 #### `bigint`
 
-> ES2020标准引入的**大整数**，`bigint`和`number`类型不兼容。
+- ES2020标准引入的**大整数**，`bigint`和`number`类型不兼容。
 
 ```ts
 let v1: bigint = 42n;
@@ -207,49 +207,192 @@ interface Foo {
 
 ##### 类型推断
 
-- 
+- `let`命令声明的变量，推断类型是`symbol`。
+- `const`命令声明的变量，推断类型是`unique symbol`。
+- `const`命令声明的变量，赋值来源于`let`命令声明的变量，推断类型是`symbol`。
 
-
-
-
-
-
-
-
-
-
-
-#### `object`类型
 ```ts
-let v1: object = { name: 'remilia' };  // 对象
-let v2: object = [1, 2, 3];            // 数组
-let v3: object = (n: number) => n + 1; // 函数
+let v1 = Symbol();   // symbol
+const v2 = Symbol(); // typeof v2(unique symbol)
+let v3 = v2;         // symbol
+const v4 = v1;       // symbol
 ```
 
-#### `undefined`和`null`类型
-> `undefined`类型只有一个值`undefined`，表示未定义
->
-> `null`类型只有一个值`null`，表示为空
->
-> `noImplicitAny`, `strictNullChecks` 关闭时，推断是any，否则推断是具体的类型
+#### `object`
+
 ```ts
-// 第一个是类型，第二个是值
-let v1: undefined = undefined; 
+let v2: object = [1, 2, 3];            // 数组
+let v3: object = (n: number) => n + 1; // 函数
+let v1: object = { name: 'remilia' };  // 对象
+```
+
+#### `undefined`, `null`
+
+- `undefined`类型只有一个值`undefined`，表示未定义。
+- `null`类型只有一个值`null`，表示为空。
+- 未显式类型声明的`undefined`和`null`值，在关闭编译选项`strictNullChecks`时会被推断为`any`，打开编译选项`strictNullChecks`时会被推断为`undefined`和`null`。
+
+```ts
+let v1: undefined = undefined;
 let v2: null = null;
+
+// 类型推断，关闭编译选项`strictNullChecks`会被推断为`any`
+let v3 = undefined;
+let v4 = null;
 ```
 
 ### 包装对象类型
-> `boolean`, `string`, `number`, `bigint`, `symbol`
+
+> **包装对象(wrapper object)**：字面值在需要使用对象的场景，会自动产生的对象。
+
+| 基本类型  | 包装对象类型 |
+| --------- | ------------ |
+| `boolean` | `Boolean`    |
+| `string`  | `String`     |
+| `number`  | `Number`     |
+| `bigint`  | `BigInt`     |
+| `symbol`  | `Symbol`     |
+
+- `new`命令调用构造函数，可以获取某个基本类型值的包装对象。`bigint`和`symbol`无法直接获取包装对象。
+
+```ts
+let v1 = Number(42);          // number
+let v2 = new Number(42);      // Number
+let v3 = Boolean(true);       // boolean
+let v4 = new Boolean(true);   // Boolean
+let v5 = String('Hello');     // string
+let v6 = new String('Hello'); // String
+```
+
+- 包装对象可以赋值包装对象和字面量，基本类型只能赋值字面量。
+- **最佳实践**：只使用基本类型，不使用包装对象类型。TS很多内置方法的参数都是基本类型，使用包装对象类型会报错。
+
+```ts
+let v1: string = 'hello';                // 正确
+let v2: String = 'hello';                // 正确
+
+let v3: string = new String('hello');    // 错误
+let v4: String = new String('hello');    // 正确
+```
+
+### `Object`
+
+- `Object`类型代表JS语言中的广义对象，除了`undefined`和`null`，其他任何值都可以赋值给`Object`类型。
+- `{}`是`Object`类型的简写形式。
+
+```ts
+let o1: Object;
+// 等同于Object
+let o2: {};
+o1 = 42;
+o1 = { foo: 42 };
+o2 = 'hello';
+o2 = [2, 4, 6];
+```
+
+- `object`类型代表JS语言中的狭义对象，即可以用字面量表示的对象，只包含数组、函数和对象。
+- 对于显式声明为`object`和`Object`类型，只能使用JS内置对象原生的属性和方法，用户自定义的属性和方法不能使用。
+
+```ts
+let obj: object;
+obj = { foo: 42 };
+obj = 42;          // 出错
+
+let obj1: Object = { foo: 42 }; // Object
+let obj2: object = { foo: 42 }; // object
+let obj3 = { foo: 42 }; // 声明的对象类型
+
+console.log(obj1.toString()); // 正确，JS对象的原生方法
+console.log(obj2.toString()); // 正确，JS对象的原生方法
+console.log(obj3.toString()); // 正确，JS对象的原生方法
+
+console.log(obj1.foo); // 出错
+console.log(obj2.foo); // 出错
+console.log(obj3.foo); // 42
+```
+
+### 值类型
+
+> 单个值也是一种类型
+
+- 值类型只能赋值为该值，赋值为其他值则会报错。
+- `const`命令声明的变量，如果没有显式类型声明，则会推断为值类型。
 
 
-#### 数组类型
+### 联合类型
 
+> `|`
 
+- `A|B`，任何一个类型属于`A`或`B`。
+- 可以与值类型相结合，表示一个变量值的若干种可能。
+- 联合类型可以看成是声明时**类型放大(type widening)**，在处理时就需要**类型缩小(type narrowing)**。
 
+```ts
+// `类型放大`
+let x: string | number;
+x = 42;
+x = 'hello';
+// 声明为值类型的联合
+let color: 'red' | 'green' | 'blue';
 
+function fn(x: string | number): void {
+  // 处理时，需要对x进行`类型缩小`
+  if (typeof x === 'string') {
+  } else if (typeof x === 'number') {
+  } else {
+  }
+}
+```
 
+### 交叉类型
 
+> `&`
 
+- `A&B`，任何一个类型必须同时属于`A`和`B`。
+- 主要用于表示对象的合成。
 
+```ts
+// 不存在值的类型既是`string`又是`number`，x的实际类型是`never`
+let x: string & number;
 
+// y的值需要同时具有`name`和`age`属性
+let y: { name: string } & { age: number };
+y = { name: 'remilia', age: 500 };
 
+// 为对象添加新的属性，T2在T1的基础上增加`newProp`属性
+type T1 = { prop: string };
+type T2 = T1 & { newProp: number };
+```
+
+### `type`命令
+
+> type T_Alias = T;
+
+- `type`命令用来定义一个类型的别名。
+- `type`命令属于类型代码，编译成JS代码的时候，会被全部删除。
+
+```ts
+type Age = number;
+let age: Age = 42;
+
+type Person = { name: string; age: number };
+let person: Person = { name: 'Remilia', age: 500 };
+```
+
+### `typeof`运算符
+
+> typeof $value;
+
+- `typeof`运算符是一元运算符，返回一个字符串，代表操作数的类型。
+- `typeof`运算符有两种作用：用于TS类型代码和用于JS的值代码。
+
+```ts
+let a: string = 'hello';
+// typeof用于类型代码，返回的是值在TS类型系统中的类型
+let b: typeof a;
+// typeof用于值代码，返回的是值在运行时的类型，即JS中的类型，以下8中可能值的一种
+// `undefined`, `boolean`, `number`, `string`, `object`, `function`, `symbol`, `bigint`
+if (typeof a === 'string') {
+  b = a;
+}
+```
