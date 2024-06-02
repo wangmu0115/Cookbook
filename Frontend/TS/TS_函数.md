@@ -1,3 +1,65 @@
+## 函数
+
+> 声明函数时，给出参数的类型和返回值的类型。
+
+```ts
+// 声明参数类型和返回值类型
+function getFullName(firstName: string, lastName: string): string {
+  return `${firstName} ${lastName}`;
+}
+console.log(getFullName('Remilia', 'Scarlet')); // Remilia Scarlet
+```
+
+### 函数类型声明
+
+- 通过**箭头函数**格式定义函数类型，形式参数的参数名不能省略。
+- 函数的实际参数可以少于定义的形式参数，但是不能比形式参数多。
+
+```ts
+// 箭头函数格式
+// 形式参数的名称不能省略
+type MyFunc = (x: string, y: number) => void;
+// 函数的实际参数可以少于定义的形式参数
+let myFunc1: MyFunc = (x: string) => console.log(x);
+let myFunc2: MyFunc = (a: string, b: number) => console.log(a, b);
+```
+
+### Function
+
+- `Function`类型标识任何函数
+
+```ts
+type AddFn = (x: number, y: number) => number;
+function invokeFn(func: Function, ...params: unknown[]): unknown {
+  return func(...params);
+}
+let add: AddFn = (a: number, b: number): number => {
+  return a + b;
+};
+console.log(invokeFn(add, 3, 4)); // 7
+```
+
+### 可选参数
+
+### 参数默认值
+
+### 参数解构
+
+### rest参数
+
+### 函数重载
+
+> 函数名相同，参数类型或数量不同
+
+- 逐一定义每种情况的类型
+- 对重载的函数给予完整的类型声明
+- 在一个实现中，处理不同的参数
+
+
+
+
+
+
 函数的类型声明，需要在声明函数时，给出参数的类型和返回值的类型。
 不指定参数或返回值类型，TS会自行推断
 将函数赋值给变量
