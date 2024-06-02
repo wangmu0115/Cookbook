@@ -316,8 +316,19 @@ console.log(obj3.foo); // 42
 > 单个值也是一种类型
 
 - 值类型只能赋值为该值，赋值为其他值则会报错。
-- `const`命令声明的变量，如果没有显式类型声明，则会推断为值类型。
+- `const`命令声明的基本类型变量，如果没有显式类型声明，则会推断为值类型。
 
+```ts
+let v1: 'hello';
+v1 = 'hello';
+v1 = 'world'; // 错误：v1是值类型(`hello`)，只能赋值'hello'。
+
+const v2 = 42; // type: 42
+const v3 = true; // type: true
+
+const person = { name: 'remilia' }; // type: {name: string}
+person.name = 'cirno'; // JS中对象虽然是常量，但是可以修改对象中的属性
+```
 
 ### 联合类型
 
