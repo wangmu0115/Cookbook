@@ -128,9 +128,21 @@ console.log(person1.__proto__.constructor == Person); // true
 ```
 ![](../_Resources/JS_Object_Prototype.png)
 
-
-
-
+对象的`isPrototypeOf()`方法,本质上，isPrototypeOf()会在传入参数的[[Prototype]]指向调用它的对象时 返回 true
+Object 类型有一个方法叫 Object.getPrototypeOf()，返回参数的内部特性 [[Prototype]]的值
+```js
+// `isPrototypeOf()`判断参数的对象原型是否指向调用者
+console.log(Person.prototype.isPrototypeOf(person1)); // true
+console.log(Person.prototype.isPrototypeOf(person2)); // true
+// `getPrototypeOf()`获取对象实例的内部[[Prototype]]指向的对象原型
+console.log(Object.getPrototypeOf(person1) === Person.prototype); // true
+console.log(Object.getPrototypeOf(person1).name); // Nicholas
+```
+Object 类型还有一个 setPrototypeOf()方法，可以向实例的私有特性[[Prototype]]写入一 个新值。  ***谨慎使用***
+为避免使用 Object.setPrototypeOf()可能造成的性能下降，可以通过 Object.create()来创 建一个新对象，同时为其指定原型
+```js
+```
+通过对象访问属性时，会按照这个属性的名称进行搜索，先从对象实例开始，如果找到则返回，如果没找到则从原型对象查找并返回。如果在对象实例上添加原型中同名属性，则会遮蔽原型对象的属性
 
 
 
