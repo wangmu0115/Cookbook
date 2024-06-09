@@ -128,24 +128,133 @@ console.log(person1.__proto__.constructor == Person); // true
 ```
 ![](../_Resources/JS_Object_Prototype.png)
 
-对象的`isPrototypeOf()`方法,本质上，isPrototypeOf()会在传入参数的[[Prototype]]指向调用它的对象时 返回 true
-Object 类型有一个方法叫 Object.getPrototypeOf()，返回参数的内部特性 [[Prototype]]的值
+- 对象原型的`isPrototypeof()`方法，当参数的对象原型指向调用方时，返回`true`。
+- 静态方法`Object.getPrototypeof()`，返回参数的对象原型，即[[Prototype]]的值。
+
 ```js
 // `isPrototypeOf()`判断参数的对象原型是否指向调用者
 console.log(Person.prototype.isPrototypeOf(person1)); // true
 console.log(Person.prototype.isPrototypeOf(person2)); // true
-// `getPrototypeOf()`获取对象实例的内部[[Prototype]]指向的对象原型
+// `Object.getPrototypeOf()`获取对象实例的内部[[Prototype]]指向的对象原型
 console.log(Object.getPrototypeOf(person1) === Person.prototype); // true
 console.log(Object.getPrototypeOf(person1).name); // Nicholas
 ```
-Object 类型还有一个 setPrototypeOf()方法，可以向实例的私有特性[[Prototype]]写入一 个新值。  ***谨慎使用***
-为避免使用 Object.setPrototypeOf()可能造成的性能下降，可以通过 Object.create()来创 建一个新对象，同时为其指定原型
+
+- 静态方法`Object.setPrototypeof()`，可以向实例的[[Prototype]]写入一个新值，即为实例设置新的对象原型。
+- 静态方法`Object.create()`创建新的对象，同时为其指定对象原型。
+
 ```js
+let obj1 = { foo: 'hello' };
+let obj2 = { bar: 42 };
+// `Object.setPrototypeof()`将obj1的对象原型设置为obj2
+Object.setPrototypeOf(obj1, obj2);
+console.log(Object.getPrototypeOf(obj1)); // {bar: 42}
+console.log(Object.getPrototypeOf(obj1) === obj2); // true
+console.log(obj1.bar); // 42
+// 也可以通过`Object.create()`方法创建对象的同时，设置对象原型
+let obj3 = Object.create(obj2);
+obj3.foo = 'hello';
+console.log(Object.getPrototypeOf(obj3)); // {bar: 42}
+console.log(Object.getPrototypeOf(obj3) === obj2); // true
+console.log(obj3.bar); // 42
 ```
-通过对象访问属性时，会按照这个属性的名称进行搜索，先从对象实例开始，如果找到则返回，如果没找到则从原型对象查找并返回。如果在对象实例上添加原型中同名属性，则会遮蔽原型对象的属性
 
+通过对象访问属性时，会依次从对象实例和原型对象中查找该属性对应的值。如果在对象实例中添加与原型对象同名的属性，即使赋值为`null`，也会遮蔽(shadow)原型对象的属性。使用`delete`操作符可以完全删除实例的属性。
 
+```js
+function Person() {}
+Person.prototype.name = 'Nicholas';
+let person = new Person();
 
+console.log(person.name); // Nicholas
+console.log(person.anotherName); // undefined
+// 遮蔽原型对象中的同名属性`name`
+person.name = 'Greg';
+console.log(person.name); // Greg
+// 赋值为`null`也会遮蔽
+person.name = null;
+console.log(person.name); // null
+// `delete`操作符删除
+delete person.name;
+console.log(person.name); // Nicholas
+```
+
+- 对象实例的`hasOwnProperty()`方法，当入参的属性在对象实例存在时，返回`true`。
+- `in`操作符会在通过对象访问指定属性时返回`true`，无论该属性在实例上还是原型上。
+
+```js
+function Person() {}
+Person.prototype.name = 'Nicholas';
+let person = new Person();
+
+console.log(person.hasOwnProperty('name')); // false
+console.log('name' in person); // true
+// 实例中添加属性
+person.name = 'Greg';
+console.log(person.hasOwnProperty('name')); // true
+console.log('name' in person); // true
+// `delete`操作符删除
+delete person.name;
+console.log(person.hasOwnProperty('name')); // fasle
+console.log('name' in person); // true
+// Function: 判断某个属性是否只存在于原型对象中
+function hasPrototypeProperty(object, name) {
+  return name in object && !object.hasOwnProperty(name);
+}
+```
+
+- `Object.keys()`返回参数传入对象的所有可枚举(`[[Enumerable]]=true`)属性名称的字符串数组。
+- `Object.getOwnPropertyNames()`返回对象的所有非Symbol类型属性名的字符串数组，包括不可枚举的属性。
+- `Object.getOwnPropertySymbols`返回对象的Symbol类型的属性名数组。
+
+```js
+function Person() {}
+Person.prototype.name = 'Nicholas';
+Person.prototype.age = 29;
+Person.prototype.job = 'Software Engineer';
+Person.prototype.sayName = function () {
+  console.log(this.name);
+};
+let person1 = new Person();
+person1.name = 'Greg';
+Object.defineProperty(person1, 'age', {
+  enumerable: false,
+  value: 42,
+});
+let person2 = new Person();
+let obj = {
+  [Symbol()]: 42,
+  [Symbol()]: 'hello',
+};
+// `Object.keys()`返回所有可枚举的属性名的字符串数组
+console.log(Object.keys(Person)); // []
+console.log(Object.keys(Person.prototype)); // [ 'name', 'age', 'job', 'sayName' ]
+console.log(Object.keys(person1)); // ['name']
+console.log(Object.keys(person2)); // []
+console.log(Object.keys(obj)); // []
+// `Object.getOwnPropertyNames()`返回对象的所有非Symbol类型属性名的字符串数组，包括不可枚举的属性
+console.log(Object.getOwnPropertyNames(Person.prototype)); // [ 'constructor', 'name', 'age', 'job', 'sayName' ]
+console.log(Object.getOwnPropertyNames(person1)); // ['name', 'age']
+console.log(Object.getOwnPropertyNames(person2)); // []
+console.log(Object.getOwnPropertyNames(obj)); // []
+// `Object.getOwnPropertySymbols`返回对象的Symbol类型的属性名数组
+console.log(Object.getOwnPropertySymbols(obj)); // [ Symbol(), Symbol() ]
+```
+
+> 属性枚举的顺序：Object.keys() 的枚举顺序是不确定的；Object.getOwnPropertyNames()、Object.getOwnPropertySymbols()和 Object.assign() 的枚举顺序是确定性的。先以升序枚举数值键，然后以插入顺序枚举字符串和符号键。在对象字面量中 定义的键以它们逗号分隔的顺序插入。
+> 
+
+对象内容序列化，`Object.values()`返回对象值的数组，`Object.entries()`返回键值对的二维数组。Symbol属性会被忽略。
+```js
+let obj = {
+  x: 'foo',
+  y: 42,
+  z: {},
+  [Symbol()]: true,
+};
+console.log(Object.values(obj)); // [ 'foo', 42, {} ]
+console.log(Object.entries(obj)); // [ [ 'x', 'foo' ], [ 'y', 42 ], [ 'z', {} ] ]
+```
 
 
 
