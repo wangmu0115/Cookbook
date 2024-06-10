@@ -63,6 +63,68 @@ console.log(f2);                // { bar: 'bar' }
 console.log(f2 instanceof Foo); // false
 ```
 
+类构造函数与构造函数的主要区别是，调用类构造函数必须使用`new`操作符。
+
+```js
+function A1() {
+  this.foo = 'foo';
+}
+class A2 {
+  constructor() {
+    this.bar = 'bar';
+  }
+}
+// 构造函数如果不使用`new`，则会以全局的`this`作为内部对象
+let v1 = A1();
+// 浏览器环境是`window`，nodejs环境是`global`
+console.log(global.foo); // foo
+let v2 = new A1();
+console.log(v2.foo); // foo
+let v3 = new A2();
+console.log(v3.bar); // bar
+// 类构造函数必须使用`new`操作符
+let v4 = A2(); // 报错
+```
+
+ECMAScript类就是一种特殊函数，`typeof`操作符返回的是`function`，`instanceof`操作符检查构造函数原型是否存在于实例的原型链中。
+
+```js
+class Foo {}
+// `typeof`操作符
+console.log(Foo); // class Foo {}
+console.log(typeof Foo); // function
+// 类标识符具有`prototype`属性，对象原型的`constructor`属性指向类本身
+console.log(Foo.prototype); // {}
+console.log(Foo.prototype.constructor); // class Foo {}
+let foo = new Foo();
+// `instanceof`操作符
+console.log(foo instanceof Foo); // true
+```
+
+类是JS的一等公民，可以像其他对象或函数引用一样把类作为参数传递。与立即调用函数表达式类似，类也可以立即实例化。
+
+```js
+let classList = [
+  class {
+    constructor(id) {
+      this.id = id;
+      console.log(`instance ${this.id}`);
+    }
+  },
+];
+// 类可以作为参数传递
+function createInstance(classDefinition, id) {
+  return new classDefinition(id);
+}
+let foo = createInstance(classList[0], 9527); // instance 9527
+// 立即实例化
+let instance = new (class {
+  constructor(val) {
+    this.val = val;
+  }
+})('bar');
+console.log(instance.val); // bar
+```
 
 
 
