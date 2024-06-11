@@ -138,7 +138,7 @@ Object.defineProperties(book, {
 
 #### 读取属性的特性
 
-`Object.getOwnPropertyDescriptor()`和`Object.getOwnPropertyDescriptors()`方法可以用于取得指定属性或对象全部属性的属性描述符。
+`Object.getOwnPropertyDescriptor()`和`Object.getOwnPropertyDescriptors()`方法可以用于取得指定属性或全部属性的属性描述符。
 
 ```js
 // { value: 2017, writable: true, enumerable: false, configurable: true }
@@ -153,7 +153,31 @@ console.log(Object.getOwnPropertyDescriptors(book));
 
 ### 对象合并
 
+> `Object.assign()`
 
+`Object.assign()`接收一个目标对象和一个或多个源对象作为参数，将每个源对象中**可枚举**的**自有属性**复制到目标对象。
 
+- `propertyIsEnumerable()`和`hasOwnProperty()`方法均返回`true`。
+- 对每个符合条件的属性，`Object.assign()`会使用源对象上的`[[Get]]`取得属性的值，然后使用目标对象上的`[[Set]]`设置属性的值。
+- `Object.assign()`实际上对每个源对象执行的是**浅复制**。
+- 如果多个源对象都有相同的属性，则使用**最后一个**复制的值。
+- 如果赋值期间出错，则操作会中止并退出，同时抛出错误，但是**不会回滚已经完成的复制**。
+
+```js
+let src = {
+  42: 'hello',
+  [Symbol()]: 'world',
+  id: 42,
+};
+console.log(src.propertyIsEnumerable('id')); // true，`id`可枚举
+console.log(src.hasOwnProperty('id')); // true，`42`自有属性
+let dest1 = {};
+let dest2 = {};
+// 合并(merge)/混入(mixin)
+Object.assign(dest1, src);
+Object.assign(dest2, { 42: 'hello' }, { id: 42 }, { [Symbol()]: 'world' });
+console.log(dest1); // { '42': 'hello', id: 42, [Symbol()]: 'world' }
+console.log(dest2); // { '42': 'hello', id: 42, [Symbol()]: 'world' }
+```
 
 
