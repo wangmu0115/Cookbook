@@ -2,6 +2,18 @@
 
 ECMA-262将对象定义为**一组属性的无序集合**，对象的每个属性都由唯一的名称标识，名称映射到一个数据或者函数。我们可以将ECMAScript的对象想象成一张散列表，其中的内容就是一组名/值对。
 
+| 方法                                 | 描述                                                       |
+| ------------------------------------ | ---------------------------------------------------------- |
+| `Object.defineProperty()`            | 定义/修改对象的属性                                        |
+| `Object.defineProperties()`          | 通过多个描述符一次性定义/修改对象的多个属性                |
+| `Object.getOwnPropertyDescriptor()`  | 获取**指定属性**的属性描述符（属性的特征）                 |
+| `Object.getOwnPropertyDescriptors()` | 获取**全部属性**的属性描述符（属性的特征）                 |
+| `Object.assign()`                    | 将一个或多个源对象中**可枚举**的**自有属性**复制到目标对象 |
+| `Object.is()`                        | 对象相等判定                                               |
+|                                      |                                                            |
+|                                      |                                                            |
+|                                      |                                                            |
+
 创建自定义对象有两种方式：创建`Object`的一个新实例，再给它添加属性和方法；对象字面量。
 ```js
 // `new Object()`
@@ -22,10 +34,6 @@ let person2 = {
 ```
 
 ### 属性的类型
-
-> `Object.defineProperty()`, `Object.defineProperties()`
->
-> `Object.getOwnPropertyDescriptor()`, `Object.getOwnPropertyDescriptors()`
 
 对象的属性分为两种：**数据属性**和**访问器属性**。
 
@@ -112,8 +120,6 @@ console.log(book, book.year); // { edition: 4, year: [Getter/Setter] } 2020
 
 #### 定义多个属性
 
-`Object.defineProperties()`方法可以通过多个描述符一次性定义多个属性。
-
 ```js
 // 修改数据属性`_year`和定义访问器属性`year`
 Object.defineProperties(book, {
@@ -138,8 +144,6 @@ Object.defineProperties(book, {
 
 #### 读取属性的特性
 
-`Object.getOwnPropertyDescriptor()`和`Object.getOwnPropertyDescriptors()`方法可以用于取得指定属性或全部属性的属性描述符。
-
 ```js
 // { value: 2017, writable: true, enumerable: false, configurable: true }
 console.log(Object.getOwnPropertyDescriptor(book, '_year'));
@@ -153,12 +157,10 @@ console.log(Object.getOwnPropertyDescriptors(book));
 
 ### 对象合并
 
-> `Object.assign()`
-
 `Object.assign()`接收一个目标对象和一个或多个源对象作为参数，将每个源对象中**可枚举**的**自有属性**复制到目标对象。
 
 - `propertyIsEnumerable()`和`hasOwnProperty()`方法均返回`true`。
-- 对每个符合条件的属性，`Object.assign()`会使用源对象上的`[[Get]]`取得属性的值，然后使用目标对象上的`[[Set]]`设置属性的值。
+- 每个符合条件的属性，`Object.assign()`会使用源对象的`[[Get]]`取得属性值，然后使用目标对象的`[[Set]]`设置属性的值。
 - `Object.assign()`实际上对每个源对象执行的是**浅复制**。
 - 如果多个源对象都有相同的属性，则使用**最后一个**复制的值。
 - 如果赋值期间出错，则操作会中止并退出，同时抛出错误，但是**不会回滚已经完成的复制**。
@@ -179,5 +181,67 @@ Object.assign(dest2, { 42: 'hello' }, { id: 42 }, { [Symbol()]: 'world' });
 console.log(dest1); // { '42': 'hello', id: 42, [Symbol()]: 'world' }
 console.log(dest2); // { '42': 'hello', id: 42, [Symbol()]: 'world' }
 ```
+
+### 对象相等判定
+
+```js
+console.log(-0 === +0); // true
+console.log(-0 === 0);  // true
+console.log(0 === +0);  // true
+// -0和+0不是同一个对象，0和+0是同一个对象
+console.log(Object.is(-0, +0)); // false
+console.log(Object.is(-0, 0));  // false
+console.log(Object.is(0, +0));  // true
+// 对象是否相等
+console.log({} == {});           // false
+console.log(Object.is({}, {}));  // false
+// NaN是特殊对象，必须使用`isNaN()`或`Object.is()`判断
+console.log(NaN == NaN);          // false
+console.log(isNaN(NaN));          // true
+console.log(Object.is(NaN, NaN)); // true
+```
+
+### 增强的对象语法
+
+```js
+// 1. 属性值简写
+let name = 'Remilia';
+let person1 = {
+  name, // 等价于`name: name`
+};
+console.log(person1); // { name: 'Remilia' }
+
+// 2. 可计算属性，将中括号包围的对象属性键的内容当做JS表达式求值
+let nameKey = 'name';
+let ageKey = 'age';
+let token = 0;
+let person2 = {
+  [`${nameKey}_${token++}`]: 'Remilia',
+  [`${ageKey}_${token++}`]: 18,
+  [Symbol()]: Math.random() * 100,
+};
+console.log(person2); // { name_0: 'Remilia', age_1: 18, [Symbol()]: 66.77606574876364 }
+
+// 3. 方法名简写
+let person3 = {
+  name,
+  // sayName: function () {/** */}, 可以简写为如下形式
+  sayName() {
+    console.log(`My name is ${this.name}.`);
+  },
+};
+person3.sayName(); // My name is Remilia.
+```
+
+### 对象解构
+
+
+
+
+
+
+
+
+
 
 
