@@ -23,7 +23,9 @@ let person2 = {
 
 ### 属性的类型
 
-> `Object.defineProperty()`
+> `Object.defineProperty()`, `Object.defineProperties()`
+>
+> `Object.getOwnPropertyDescriptor()`, `Object.getOwnPropertyDescriptors()`
 
 对象的属性分为两种：**数据属性**和**访问器属性**。
 
@@ -59,13 +61,98 @@ Object.defineProperty(person, 'name', {
 });
 // 创建`age`属性
 Object.defineProperty(person, 'age', {
-  configurable: true, // 新定义的属性特性默认为`false`
+  configurable: true, // 创建的属性，特性默认为`false`
   enumerable: true, // 可以将这行注释，`console.log()`方法打印的对象将不再包含`age`属性
   writable: true,
   value: 29,
 });
 console.log(person); // { name: 'Greg', age: 29 }
 ```
+
+#### 访问器属性
+
+访问器属性不包含数据值，它们包含一个获取(getter)函数和一个设置(setter)函数。访问器属性有4个特性描述它们的行为：
+
+- `[[Configurable]]`：属性是否可以通过`delete`删除并重新定义，是否可以修改它的特性，是否可以把它改为数据属性。直接定义在对象上的属性的这个特性是`true`。
+- `[[Enumerable]]`：属性是否可以通过`for-in`循环返回。直接定义在对象上的属性的这个特性是`true`。
+- `[[Get]]`：获取函数，在读取属性时调用。默认值为 undefined。
+- `[[Set]]`：设置函数，在写入属性时调用。默认值为 undefined。
+
+访问器属性是不能直接定义的，必须使用`Object.defineProperty()`。
+
+```js
+let book = {
+  _year: 2017, // 私有属性
+  edition: 1,
+};
+// 修改数据属性`_year`为不可枚举
+Object.defineProperty(book, '_year', {
+  enumerable: false,
+});
+// 定义访问器属性`year`
+Object.defineProperty(book, 'year', {
+  configurable: true, // [[Configurable]]
+  enumerable: true,   // [[Enumerable]]
+  get() {  // [[Get]]
+    return this._year;
+  },
+  set(newValue) { // [[Set]]
+    if (newValue > 2017) {
+      this._year = newValue;
+      this.edition += newValue - 2017;
+    }
+  },
+});
+console.log(book, book.year); // { edition: 1, year: [Getter/Setter] } 2017
+book.year = 2000;
+console.log(book, book.year); // { edition: 1, year: [Getter/Setter] } 2017
+book.year = 2020;
+console.log(book, book.year); // { edition: 4, year: [Getter/Setter] } 2020
+```
+
+#### 定义多个属性
+
+`Object.defineProperties()`方法可以通过多个描述符一次性定义多个属性。
+
+```js
+// 修改数据属性`_year`和定义访问器属性`year`
+Object.defineProperties(book, {
+  _year: {
+    enumerable: false,
+  },
+  year: {
+    configurable: true,
+    enumerable: true,
+    get() {
+      return this._year;
+    },
+    set(newValue) {
+      if (newValue > 2017) {
+        this._year = newValue;
+        this.edition += newValue - 2017;
+      }
+    },
+  },
+});
+```
+
+#### 读取属性的特性
+
+`Object.getOwnPropertyDescriptor()`和`Object.getOwnPropertyDescriptors()`方法可以用于取得指定属性或对象全部属性的属性描述符。
+
+```js
+// { value: 2017, writable: true, enumerable: false, configurable: true }
+console.log(Object.getOwnPropertyDescriptor(book, '_year'));
+/*{
+  _year: { value: 2017, writable: true, enumerable: false, configurable: true },
+  edition: { value: 1, writable: true, enumerable: true, configurable: true },
+  year: { configurable: true, enumerable: true, get: [Function: get], set: [Function: set], }
+}*/
+console.log(Object.getOwnPropertyDescriptors(book));
+```
+
+### 对象合并
+
 
 
 
