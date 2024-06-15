@@ -126,5 +126,29 @@ let instance = new (class {
 console.log(instance.val); // bar
 ```
 
+### 实例成员
+
+```js
+class Person {
+  // 类构造函数中的属性是实例独有的，不会再原型上共享
+  constructor() {
+    this.name = new String('Jack');
+    this.sayName = () => console.log(this.name);
+    this.nickNames = ['Jake', 'J-Dog'];
+  }
+}
+const p1 = new Person();
+const p2 = new Person();
+console.log(p1.name == p2.name); // false
+console.log(p1.sayName == p2.sayName); // false
+console.log(p1.nickNames == p2.nickNames); // false
+p1.sayName(); // [String: 'Jack']
+p2.sayName(); // [String: 'Jack']
+p1.name = p1.nickNames[0];
+p2.name = p2.nickNames[1];
+p1.sayName(); // Jake
+p2.sayName(); // J-Dog
+```
+
 
 
