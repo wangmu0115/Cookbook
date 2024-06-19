@@ -20,7 +20,7 @@
 | `float()`      | 返回由数字或字符串构造的浮点数对象，默认值`0.0`              | *class* **float**(*number=0.0*, */*)<br/>*class* **float**(*string*, */*) |
 | `int()`        | 返回由数字或字符串构造的整数对象，默认值`0`                  | *class* **int**(*number=0*, */*)<br/>*class* **int**(*string*, */*, *base=10*) |
 | `str()`        | 返回字符串对象，即对象的[build-in text sequence type: str](https://docs.python.org/3/library/stdtypes.html#str)版本 | *class* **str**(*object=''*)<br/>*class* **str**(*object=b''*, *encoding='utf-8'*, *errors='strict'*) |
-| `len()`        | 返回对象的长度，即项目数量。参数可以是序列(`str`, `bytes`, `bytearray`, `memoryview`, `tuple`, `list`, `range`)或集合(`dict`, `set`, `frozenset`) | **len**(*s*)                                                 |
+| `len()`        | 返回对象的长度，即元素数量。参数可以是序列(`str`, `bytes`, `bytearray`, `memoryview`, `tuple`, `list`, `range`)或集合(`dict`, `set`, `frozenset`) | **len**(*s*)                                                 |
 |                |                                                              |                                                              |
 |                |                                                              |                                                              |
 |                |                                                              |                                                              |
