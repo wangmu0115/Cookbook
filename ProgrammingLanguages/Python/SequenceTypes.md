@@ -1,8 +1,8 @@
-> **[Sequence Types — `list`, `tuple`, `range`](https://docs.python.org/3/library/stdtypes.html#sequence-types-list-tuple-range)**
->
-> **[Text Sequence Types — `str`](https://docs.python.org/3/library/stdtypes.html#text-sequence-type-str)**
->
-> **[Binary Sequence Types — `bytes`, `bytearray`, `memoryview` ](https://docs.python.org/3/library/stdtypes.html#binary-sequence-types-bytes-bytearray-memoryview)**
+## 序列类型（Sequence Types）
+
+- 基本序列类型：**[`list`, `tuple`, `range`](https://docs.python.org/3/library/stdtypes.html#sequence-types-list-tuple-range)**
+- 文本字符串序列类型：**[`str`](https://docs.python.org/3/library/stdtypes.html#text-sequence-type-str)**
+- 二进制数据序列类型：**[`bytes`, `bytearray`, `memoryview` ](https://docs.python.org/3/library/stdtypes.html#binary-sequence-types-bytes-bytearray-memoryview)**
 
 ### 常见序列操作
 
@@ -23,7 +23,7 @@
 | `s.index(x[, i[, j]])` | s 中第一次出现 x 的索引（在索引`i`处或之后且在索引`j`之前） |
 | `s.count(x)`           | s 中出现 x 的总次数                                         |
 
-- `in`和`not in`操作符用于简单包含，但是`str`、`bytes`和`bytearray`等序列也可以使用它们进行子序列匹配。
+- `in`和`not in`操作符用于简单包含，但是`str`、`bytes`和`bytearray`等序列也可以使用它们进行**子序列匹配**。
 
 ```python
 seq1 = "helloworld"
@@ -172,7 +172,6 @@ print(s10) # [4, 2, 3, 1]
 
 
 
-值 n 是一个整数，或一个实现 __index__() 的对象。零值和负值 n 会清除序列。序列中的项不会被复制；它们会被多次引用，如常见序列操作中对 s * n 的解释。
 
 
 
