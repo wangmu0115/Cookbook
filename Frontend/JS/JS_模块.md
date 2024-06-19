@@ -22,6 +22,116 @@
 
 
 
+### CommonJS
+
+CommonJS规范概述了**同步声明依赖**的模块定义，主要用于在**服务端**实现模块化代码组织：使用`require()`指定依赖，使用`module.exports`对象定义自己的公共API。
+
+```js
+// moduleA.js
+console.log('moduleA');
+function doStuff() {
+  return 'hello world';
+}
+module.exports = { // 导出`moduleA`的公共API
+  doStuff,
+};
+
+// 与`moduleA.js`同级目录下的`moduleB.js`文件
+// 指定依赖`moduleA`
+let moduleA = require('./moduleA'); // `./moduleA` = 相对路径的模块标识符
+module.exports = { // 导出模块`moduleB`的公共API
+  stuff: moduleA.doStuff(),
+};
+```
+
+### 异步模块定义(AMD, Asynchronous Module Definition)
+
+AMD的模块定义系统以**浏览器**为目标执行环境，实现的核心是用函数包装模块定义。包装模块的函数是全局`define`的参数，它是由AMD加载器库的实现定义的。
+
+AMD模块可以使用字符串标识符指定自己的依赖，AMD加载器会在所有依赖模块加载完毕后立即调用模块工厂函数。
+
+```js
+// `moduleB`的模块定义，`moduleB`依赖`moduleA`，`moduleA`会异步加载
+define('moduleB', ['moduleA'], function(moduleA) {
+  return {
+	stuff: moduleA.doStuff();
+  }
+})
+// 也支持`require`和`exports`对象
+define('moduleB', ['require', 'exports'], function(require, exports) { 
+  let moduleA = require('moduleA');
+  exports.stuff = moduleA.doStuff();
+});
+```
+
+### 通用模块定义(UMD, Universal Module Definition)
+
+为了统一CommonJS和AMD生态系统，UMD规范应运而生。UMD定义的模块会在启动时检测要使用哪个模块系统，然后进行适当配置，并把所有逻辑包装在一个立即调用的函数表达式(IIFE)中。
+
+### ES6模块
+
+#### 模块标签及定义
+
+带有`type="module"`属性的`<script>`标签的相关代码会作为模块执行，模块可以嵌入到页面中，或作为外部文件引入，不过嵌入的模块定义代码不能使用`import`加载到其他模块。
+
+```html
+<script type="module">
+  // 嵌入的模块代码
+</script>
+<!-- 外部文件引入 -->
+<script type="module" src="path/to/module.js"></script>
+```
+
+- **立即下载，延迟执行**：解析到`<script type="module">`标签时，会立即下载模块文件，但是会延迟到文档解析完成后执行。
+- **模块单例**：同一个模块无论在一个页面中被加载多少次，也不管是如何加载的，实际上都只会加载一次。
+
+#### 模块加载
+
+ES6模块既可以通过浏览器加载，也可以与第三方加载器和构造工具一起加载，从顶级模块异步加载整个依赖图。浏览器会解析入口模块，确定依赖，并发送对依赖模块的请求。这些文件通过网络返回后，浏览器就会解析它们的内容，确定它们的依赖，如果这些二级依赖还没有加载，则会发送更多请求。这个异步递归加载过程会持续到整个应用程序的依赖图都解析完成。解析完依赖图，应用程序就可以正式加载模块了。
+
+#### 模块特性
+
+- 模块代码只在加载后执行。
+- 模块只能加载一次。
+- 模块是单例。
+- 模块可以定义公共接口，其他模块可以基于这个公共接口观察和交互。
+- 模块可以请求加载其他模块。
+- 支持循环依赖。
+- 默认在严格模式下执行。
+- 不共享全局命名空间。
+- 模块顶级`this`的值是`undefined`(浏览器环境中是`window`)。
+- 模块中的`var`声明不会添加到`window`对象中。
+- ES6模块是异步加载和执行的。
+
+与`<script type="module">`关联或者通过`import`语句加载的JavaScript文件会被认定为模块。
+
+#### 模块导出
+
+ES6模块控制哪些部分对外部可见是通过`export`关键字实现的，支持两种导出：命名导出和默认导出。导出语句必须在**模块顶级**，不能嵌套在某个块中。
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
