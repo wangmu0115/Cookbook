@@ -6,8 +6,12 @@
 
 | 函数           | 描述                                                         | 函数定义                                                     |
 | -------------- | ------------------------------------------------------------ | ------------------------------------------------------------ |
-| `print()` | 将对象打印到文本流文件，以`sep`分隔并后跟`end`，`sep`、`end`、`file`和`flush`必须作为关键字参数给出。默认情况下，输出到控制台 | **print**(**objects*, *sep=' '*, *end='\n'*, *file=None*, *flush=False*) |
+| `print()` | 将对象输出到文本流文件，以`sep`分隔并以`end`结尾。默认输出到控制台 | **print**(**objects*, *sep=' '*, *end='\n'*, *file=None*, *flush=False*) |
 | `input()` | 该函数从输入中读取一行，将其转换为字符串并返回（删除尾随换行符） | **input**()<br/>**input**(*prompt*) |
+| | | |
+| `abs()` | 返回数值的绝对值，参数可以是`int`、`float`和实现`__abs__()`的对象 | **abs**(*x*) |
+| |  | |
+| | | |
 | `isinstance()` | 检查对象是否为特定类型的实例                                 | **isinstance**(*object*, *classinfo*)     |
 | `getattr()`    | 返回对象对应名称的属性或方法                                 | **getattr**(*object*, *name*)<br/>**getattr**(*object*, *name*, *default*) |
 | `hasattr()`    | 名称对应的属性或方法在对象中是否存在                         | **hasattr**(*object*, *name*)                                |
@@ -26,5 +30,14 @@
 |                |                                                              |                                                              |
 |                |                                                              |                                                              |
 |                |                                                              |                                                              |
-| `zip()` |                                                              | **zip**(**iterables*, *strict=False*) |
+| `zip()` | 返回元组的迭代器，其中第`i`个元组包含每个参数可迭代对象中的第`i`个元素。`strict=True`参数可以在参数的长度不一致时返回错误， | **zip**(**iterables*, *strict=False*) |
+|  |  |  |
+
+
+
+```python
+# zip()
+zip_result = zip(range(3), ["a", "b", "c"], [True, False, True]) # <zip object at 0x7f98001e9d80>
+print([x for x in zip_result]) # [(0, 'a', True), (1, 'b', False), (2, 'c', True)]
+```
 
