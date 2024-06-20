@@ -14,7 +14,7 @@
 | `x not in s`           | s 中是否不存在任何元素等于 x                                |
 | `s + t`                | s 和 t 序列连接                                             |
 | `n * s`, `s * n`       | 相当于将 s 加到自身 n 次                                    |
-| `s[i]`                 | s 中第`i`个元素，从0开始                                    |
+| `s[i]`                 | s 中第`i`个元素，`i`从0开始                                 |
 | `s[i:j]`               | 从`i`到`j`的 s 切片                                         |
 | `s[i:j:k]`             | 从`i`到`j`的 s 切片，步长是`k`                              |
 | `len(s)`               | s 中元素的数量                                              |
@@ -26,20 +26,31 @@
 - `in`和`not in`操作符用于简单包含，但是`str`、`bytes`和`bytearray`等序列也可以使用它们进行**子序列匹配**。
 
 ```python
-seq1 = "helloworld"
-seq2 = list(seq1)
-print("ll" in seq1) # True
-print("ll" in seq2) # False
-print('l' not in seq2) # False
+s1 = "HelloWorld"
+s2 = list(s1)
+print("ll" in s1) # True
+print("ll" in s2) # True
+print("l" not in s2) # False
+```
 
-intSeq1 = [1, 3, 5]
-intSeq2 = [2, 4, 6]
-print(intSeq1 + intSeq2) # [1, 3, 5, 2, 4, 6]
-print(intSeq2 + intSeq1) # [2, 4, 6, 1, 3, 5]
-print(intSeq1 * 3) # [1, 3, 5, 1, 3, 5, 1, 3, 5]
-print(intSeq1[1]) # 3
-print(intSeq1[0:2]) # [1, 3]
-print(seq2[1:9:2]) # ['e', 'l', 'w', 'r']
+- 使用运算符`+`连接不可变序列总是会产生一个新对象，因此需要注意重复连接产生的运行时成本。
+- 使用运算符`*`重复序列时，需要注意当`n <= 0`时相当于清空序列中的元素，`n > 1`复制的不是序列的元素而是元素的引用。
+
+```python
+# 连接序列会产生一个新的序列
+s3 = [1, 3, 5]
+s4 = [2, 4, 6]
+print(s3 + s4) # [1, 3, 5, 2, 4, 6]
+print(s4 + s3) # [2, 4, 6, 1, 3, 5]
+# n <= 0则相当于清空序列
+s5 = s3 * 0 # []
+s6 = s3 * -1 # []
+s7 = s3 * 2 # [1, 3, 5, 1, 3, 5]
+# 重复的不是元素，而是元素的引用
+s8 = [[1, 3], [2, 4]]
+s9 = s8 * 2
+s9[0].append(5)
+print(s9) # [[1, 3, 5], [2, 4], [1, 3, 5], [2, 4]]
 ```
 
 
@@ -163,25 +174,6 @@ s10 = [1, 3, 2, 4]
 print(s10.reverse()) # None
 print(s10) # [4, 2, 3, 1]
 ```
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 ### 元组（Tuple）
 

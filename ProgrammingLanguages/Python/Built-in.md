@@ -26,5 +26,5 @@
 |                |                                                              |                                                              |
 |                |                                                              |                                                              |
 |                |                                                              |                                                              |
-|                |                                                              |                                                              |
+| `zip()` |                                                              | **zip**(**iterables*, *strict=False*) |
 
