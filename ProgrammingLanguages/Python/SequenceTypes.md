@@ -209,3 +209,66 @@ print(tup7) # (0, 1, 2, 3, 4)
 
 **逗号**构成了元组，括号是可选的，除非元组为空或者需要使用括号来避免语法歧义。
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+### 文本序列类型 : `str`
+
+`str`是由Unicode码点构成的不可变序列。字符串字面量可以通过`'`、`"`、`"""`或`'''`创建：
+
+```python
+# 单引号
+single_quote_str = 'allows embedded "double" quotes'
+# 双引号
+double_quote_str = "allows embedded 'single' quotes"
+# 三引号，允许跨越多行，所有空字符都会将包含在字符串文字中
+triple_quote_str1 = """Tress double quotes
+    second line
+last line"""
+triple_quote_str2 = '''Three single quotes'''
+```
+
+- **`class str(object='')`**
+  - 等价于`type(object).__str__(object)`
+  - 如果`object`没有`__str()__`方法，则等价于`repr(object)`
+- **`class str(object=b'', encoding='utf-8', errors='strict')`**
+  - `object`是`bytes`或`bytearray`对象，则等价于`bytes.encode(encoding, errors)`
+  - `object`是其他类型，则会先获取缓冲层对象底层的字节对象
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
