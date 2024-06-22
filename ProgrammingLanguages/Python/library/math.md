@@ -1,6 +1,11 @@
-> [`math`](https://docs.python.org/3/library/math.html)
->
-> `import math`
+[`math`](https://docs.python.org/3/library/math.html)
+
+```python
+import math
+
+print(math.pi) # 3.141592653589793
+print(math.dist([3, 5], [6, 1])) # 5.0
+```
 
 ### 常量
 
@@ -12,7 +17,7 @@
 | `math.inf` | 正无穷大，`float("inf")`                                     |
 | `math.nan` | `Not a Number`，`float("nan")`，使用`math.isnan()`判断是否为`NaN` |
 
-### 常用函数
+### 函数
 
 | 库函数                        | 描述                                                         |
 | ----------------------------- | ------------------------------------------------------------ |
