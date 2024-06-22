@@ -17,7 +17,7 @@ print(math.dist([3, 5], [6, 1])) # 5.0
 | `math.inf` | 正无穷大，`float("inf")`                                     |
 | `math.nan` | `Not a Number`，`float("nan")`，使用`math.isnan()`判断是否为`NaN` |
 
-### 函数
+### 常用函数
 
 | 库函数                        | 描述                                                         |
 | ----------------------------- | ------------------------------------------------------------ |
@@ -42,7 +42,7 @@ print(math.dist([3, 5], [6, 1])) # 5.0
 | `math.asin(x)`                | 反正弦，$\in \left[ -\frac{\pi}{2}, \frac{\pi}{2} \right]$，$\arcsin x$ |
 | `math.acos(x)`                | 反余弦，$\in \left[ 0, \pi \right]$，$\arccos x$             |
 | `math.atan(x)`                | 反正切，$\in \left[ -\frac{\pi}{2}, \frac{\pi}{2} \right]$，$\arctan x$ |
-| `math.atan2(y, x)`            | 反正切，$\in \left[ -\pi, \pi \right]$，$\arctan {\frac{y}{x}}$，相比`math.atan(x)`可以计算角度正确的象限 |
+| `math.atan2(y, x)`            | 反正切，$\in \left[ -\pi, \pi \right]$，$\arctan {\frac{y}{x}}$，相比`math.atan(y/x)`可以计算角度正确的象限 |
 | `math.sinh(x)`                | 双曲正弦，$\sinh x$                                          |
 | `math.cosh(x)`                | 双曲余弦，$\cosh x$                                          |
 | `math.tanh(x)`                | 双曲正切，$\tanh x$                                          |

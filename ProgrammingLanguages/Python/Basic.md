@@ -188,7 +188,7 @@ for idx in range(len(seq)):
 ### 常用库
 
 - [`math`](https://docs.python.org/3/library/math.html)
-- [`random`](https://docs.python.org/3/library/random.html)
+- [`random`]()
 - [`statistics`](https://docs.python.org/3/library/statistics.html)
 
 
