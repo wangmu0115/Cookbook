@@ -189,7 +189,7 @@ for idx in range(len(seq)):
 
 - [`math`](https://docs.python.org/3/library/math.html)
 - [`random`]()
-- [`statistics`](https://docs.python.org/3/library/statistics.html)
+- 
 
 
 
