@@ -43,6 +43,90 @@ from datetime import datetime, date, time
 from datetime import *
 ```
 
+### 控制结构
+
+- `if...elif...else...`
+- `for`
+- `while`
+- `for...else...`
+
+```python
+"""
+# if num > 3:
+0       1       2       3       
+# if num > 5:
+0       1       2       3       4
+For loop finished
+"""
+for num in range(5):
+    # 如果for循环没有执行到结尾，`for..else`的`else`语句不会执行
+    # 例如break改成`num > 5`，则会打印`For loop finished`
+    if num > 3:
+    # if num > 5:
+        break
+    else:
+        print(num, end="\t")
+else:
+    print("\nFor loop finished")
+```
+
+- `break`, `continue`, `pass`
+
+```python
+"""
+# break: 0 1 2
+# continue: 0 1 2 4
+# pass: 0 1 2 3 4
+"""
+for i in range(5):
+    if i == 3:
+        # break
+        # continue
+        pass # 空语句占位符
+    print(i, end=' ')
+```
+
+### 列表生成式
+
+**`[expression for item in iterable if condition]`**
+
+- `expression`要生成的元素
+- `item`迭代的变量
+- `iterable`迭代的对象
+- `if condition`可选的过滤条件
+
+```python
+# 矩阵转置：[[1, 2, 3], [4, 5, 6]] => [[1, 4], [2, 5], [3, 6]]
+def transpose(matrix):
+    matrix_x = []
+    num_row = len(matrix)
+    num_col = len(matrix[0])
+    return [[matrix[i][j] for i in range(num_row)] for j in range(num_col)]
+    # transposed_matrix = []
+    # for j in range(num_col):
+    #     transposed_matrix.append([matrix[i][j] for i in range(num_row)])
+    # return transposed_matrix
+# 矩阵逐项积，相同矩阵中相应位置上的元素逐一相乘
+# [[1, 2], [3, 4]] \otimes [[5, 6], [7, 8]] => [[5, 12], [21, 32]]
+def hadamard_prod(M1, M2):
+    if len(M1) != len(M2) or len(M1[0]) != len(M2[0]):
+        raise ValueError("Matrices must have the same shape")
+    num_row = len(M1)
+    num_col = len(M1[0])
+    return [[M1[i][j] * M2[i][j] for j in range(num_col)] for i in range(num_row)]
+# 笛卡尔积
+column1 = [1, 2, 3]
+column2 = ['a', 'b']
+# [(1, 'a'), (1, 'b'), (2, 'a'), (2, 'b'), (3, 'a'), (3, 'b')]
+print([(x, y) for x in column1 for y in column2])
+```
+
+
+
+
+
+
+
 ### 异常
 
 在 Python 中，异常 (exception) 是指在程序执行期间出现的错误或异常情况。当出现异常时，程序的正常流程被中断，转 而执行异常处理的代码块，以避免程序崩溃或产生不可预知的结果。
@@ -185,11 +269,7 @@ for idx in range(len(seq)):
 
 
 
-### 常用库
-
-- [`math`](https://docs.python.org/3/library/math.html)
-- [`random`]()
-- 
+### 
 
 
 

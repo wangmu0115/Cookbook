@@ -28,11 +28,50 @@
 
 
 
+| 函数                                                       | 描述                                                         |
+| ---------------------------------------------------------- | ------------------------------------------------------------ |
+| `class range(stop)`<br/>`class range(start, stop, step=1)` | 生成一个不可变的均匀分布的整数序列：[`range`](https://docs.python.org/3/library/stdtypes.html#ranges) |
+| `enumerate(iterable, start=0)`                             | 将一个可迭代对象转换为一个由索引和元素组成的枚举对象         |
+| `zip(*iterables, strict=False)`                            | 返回元组的迭代器，其中第`i`个元组包含每个参数可迭代对象中的第`i`个元素<br />`strict=True`可迭代对象参数的长度不一致时返回错误 |
+|                                                            |                                                              |
+|                                                            |                                                              |
+|                                                            |                                                              |
+|                                                            |                                                              |
+|                                                            |                                                              |
+|                                                            |                                                              |
+|                                                            |                                                              |
+|                                                            |                                                              |
+
+```python
+names = ["Remilia", "Cirno", "Flandre"]
+# 10: Remilia | 11: Cirno | 12: Flandre |
+for index, name in enumerate(names, start=10):
+    print(f"{index}: {name}", end=" | ")
+
+x = [1, 2, 3, 4, 5]
+y = [6, 7, 8, 9, 0]
+dot_product = 0
+for (x_i, y_i) in zip(x, y):
+    dot_product += x_i * y_i
+# x and y dot product is 80
+print(f"x and y dot product is {dot_product}")
+```
+
+
+
+
+
+
+
+
+
+
+
 | 函数           | 描述                                                         | 函数定义                                                     |
 | -------------- | ------------------------------------------------------------ | ------------------------------------------------------------ |
-| `print()` | 将对象输出到文本流文件，以`sep`分隔并以`end`结尾。默认输出到控制台 | **print**(**objects*, *sep=' '*, *end='\n'*, *file=None*, *flush=False*) |
-| `input()` | 该函数从输入中读取一行，将其转换为字符串并返回（删除尾随换行符） | **input**()<br/>**input**(*prompt*) |
-| | | |
+|                |                                                              |                                                              |
+|                |                                                              |                                                              |
+|                |                                                              | |
 | `abs()` | 返回数值的绝对值，参数可以是`int`、`float`和实现`__abs__()`的对象 | **abs**(*x*) |
 | |  | |
 | | | |
