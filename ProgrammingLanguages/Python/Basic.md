@@ -121,6 +121,22 @@ column2 = ['a', 'b']
 print([(x, y) for x in column1 for y in column2])
 ```
 
+### 函数
+
+- 内置函数：Python解释器提供的函数
+- 自定义函数
+- Lambda函数：匿名函数，通过`lambda`关键字定义
+- 生成器函数：用于生成一个迭代器，使用`yield`关键字定义
+- 方法：与对象相关联的函数，使用`.`运算符调用
+
+
+
+
+
+
+
+
+
 
 
 
@@ -234,44 +250,6 @@ print(bool(val)) # True
 print(str(val)) # 3.1415926
 print(type(str(42))) # <class 'str'>
 ```
-
-### 控制流
-
-- `if`, `elif`, `else`
-- `for value in collection`
-	- `continue`
-	- `break`
-- `while`
-- `pass`: 不执行任何操作的代码块占位符
-- `range(start_include, end_exclude, step)`函数生成一个均匀分布的整数序列，`range()`函数返回的是**迭代器**。
-
-```python
-val = 42
-if val < 18:
-    print("val < 18")
-elif(val < 60):
-    pass # 占位符
-else:
-    print("val > 60")
-
-list = list(range(0, 10, 1))
-print(list) # [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]
-# range()函数常见用法是用索引迭代序列
-seq = [1, 3, 5]
-for idx in range(len(seq)):
-	# element_0: 1
-    # element_1: 3
-    # element_2: 5
-	print(f"element_{idx}: {seq[idx]}")
-```
-
-
-
-
-
-### 
-
-
 
 
 
