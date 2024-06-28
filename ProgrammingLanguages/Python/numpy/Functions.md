@@ -1,0 +1,6 @@
+- `numpy.linspace()`
+- `numpy.sin()`
+- `numpy.cos()`
+- `numpy.pi`
+- `numpy.deg2rad()`
+- `numpy.rad2deg()`
