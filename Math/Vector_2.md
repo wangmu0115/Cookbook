@@ -1,46 +1,6 @@
 ## 向量 `vector`
 
-将若干数字排成一行或一列，并用中括号括起来，得到的数组叫做**向量**，排成一行叫做**行向量**，排成一列叫做**列向量**。
-$$
-\begin{bmatrix}
-1&2&3
-\end{bmatrix}, \quad
-\begin{bmatrix}
-1\\2\\3
-\end{bmatrix}
-$$
 
-向量是**既有长度又有方向的量**，**标量**是只有大小没有方向的量，用实数表示。
-
-<img src="./_Resources/Vector.png" style="zoom:25%;" />
-
-### 向量模
-
-$\left\Vert \boldsymbol{a} \right\Vert$ 计算向量 $a$ 的长度，$\left\Vert \boldsymbol{a} \right\Vert$ 叫向量模，也叫 $L^2$ 范数，$L^2$ 范数是 $L^p$ 范数的一种。
-$$
-\left\Vert \boldsymbol{a} \right\Vert = \sqrt {4^2 + 3^2} = 5
-$$
-
-### 向量分解
-
-$$
-\boldsymbol{a} = 4\boldsymbol{i} + 3\boldsymbol{j} = 4 \times \begin{bmatrix} 1\\0 \end{bmatrix} + 3 \times \begin{bmatrix} 0\\1 \end{bmatrix} = \begin{bmatrix} 4\\3 \end{bmatrix} 
-$$
-
-$\boldsymbol{i}$ 和 $\boldsymbol{j}$ 是横轴和纵轴上的**单位向量**，单位向量是指模为 $1$ 的向量。
-$$
-\boldsymbol{i} = \begin{bmatrix} 1\\0 \end{bmatrix}, \boldsymbol{j} = \begin{bmatrix} 0\\1 \end{bmatrix}, \left\Vert \boldsymbol{i} \right\Vert = 1, \left\Vert \boldsymbol{j} \right\Vert = 1
-$$
-任何非零向量除以自身的模，得到向量方向上的单位向量。
-$$
-\frac{\boldsymbol{a}}{\left\Vert a \right\Vert} = \frac{1}{5} \begin{bmatrix}4\\3\end{bmatrix} = \begin{bmatrix}0.8\\0.6\end{bmatrix}
-$$
-
-### 向量加法
-
-
-
-### 向量减法
 
 
 
@@ -150,5 +110,34 @@ $$
 $$
 \text{proj}_a \boldsymbol{b} = \big\Vert \boldsymbol{b} \big\Vert \cos \theta \dfrac{\boldsymbol{a}}{\big\Vert \boldsymbol{a} \big\Vert} = \dfrac{\boldsymbol{a} \cdot \boldsymbol{b}}{\big\Vert \boldsymbol{a} \big\Vert} \dfrac{\boldsymbol{a}}{\big\Vert \boldsymbol{a} \big\Vert}
 $$
+
+设 $\boldsymbol{v}$ 为单位向量，$\boldsymbol{a}$ 在 $\boldsymbol{v}$ 方向上的标量投影：
+$$
+\big\Vert\boldsymbol{a}\big\Vert \cos \theta = \dfrac{\boldsymbol{a} \cdot \boldsymbol{v}}{\big\Vert\boldsymbol{v}\big\Vert} = \boldsymbol{a} \cdot \boldsymbol{v}
+$$
+$\boldsymbol{a}$ 在 $\boldsymbol{v}$ 方向上的向量投影：
+$$
+\text{proj}_{\boldsymbol{v}}{\boldsymbol{a}} = (\big\Vert\boldsymbol{a}\big\Vert \cos \theta)\boldsymbol{v} = (\boldsymbol{a} \cdot \boldsymbol{v})\boldsymbol{v} = (\boldsymbol{a}^T\boldsymbol{v})\boldsymbol{v} = (\boldsymbol{v}^T\boldsymbol{a})\boldsymbol{v}
+$$
+<img src="./_Resources/projection.png" style="zoom:30%;" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
