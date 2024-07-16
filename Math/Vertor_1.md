@@ -101,7 +101,7 @@ $$
 
 $\theta$ 是向量 $\boldsymbol{a}$ 和 $\boldsymbol{b}$ 的夹角，$\big\Vert \boldsymbol{b} \big\Vert \cos\theta$ 是向量 $\boldsymbol{b}$ 在 $\boldsymbol{a}$ 方向上的**标量投影**，$\big\Vert \boldsymbol{a} \big\Vert \cos\theta$ 是向量 $\boldsymbol{a}$ 在 $\boldsymbol{b}$ 方向上的**标量投影**。**余弦定理**推导。
 
-<img src="./_Resources/vector/vector_002.png" style="zoom:30%;" />
+<img src="./_Resources/vector/vector_003.png" style="zoom:30%;" />
 
 #### 4.2 柯西-施瓦茨不等式
 
@@ -124,9 +124,9 @@ $$
 \left(\sum_{i=1}^na_ib_i\right)^2 \leqslant \left(\sum_{i=1}^na_i^2\right)\left(\sum_{i=1}^nb_i^2\right)
 $$
 
-#### 余弦相似度
+#### 4.3 余弦相似度
 
-**余弦相似度**用向量夹角的余弦值度量样本数据的相似性，使用 $k(\boldsymbol{x}, \boldsymbol{q})$ 来表达 $\boldsymbol{x}$ 和 $\boldsymbol{q}$ 两个列向量的余弦相似度：
+**余弦相似度**用向量夹角的余弦值**度量样本数据的相似性**，使用 $k(\boldsymbol{x}, \boldsymbol{q})$ 来表达 $\boldsymbol{x}$ 和 $\boldsymbol{q}$ 两个列向量的余弦相似度：
 $$
 k(\boldsymbol{x}, \boldsymbol{q}) = \frac{\boldsymbol{x} \cdot \boldsymbol{q}}{\big\Vert \boldsymbol{x} \big\Vert \big\Vert \boldsymbol{q} \big\Vert} = \frac{\boldsymbol{x}^T \boldsymbol{q}}{\big\Vert \boldsymbol{x} \big\Vert \big\Vert \boldsymbol{q} \big\Vert}
 $$
@@ -138,11 +138,11 @@ d(\boldsymbol{x}, \boldsymbol{q}) = 1 - k(\boldsymbol{x}, \boldsymbol{q}) = 1 - 
 $$
 余弦距离的取值范围是 $[0, 2]$。
 
-### 向量积
+### 5. 向量积
 
-**向量积**也叫**叉积**或外积，记作 $\boldsymbol{a} \times \boldsymbol{b}$，向量积的结果为向量。
+**向量积**也叫**叉积**或**外积**，记作 $\boldsymbol{a} \times \boldsymbol{b}$，向量积的结果为向量。
 
-#### 方向
+**方向**
 
 $\boldsymbol{a} \times \boldsymbol{b}$ 方向分别垂直于向量 $\boldsymbol{a}$ 和 $\boldsymbol{b}$，即 $\boldsymbol{a} \times \boldsymbol{b}$ **垂直于向量 $\boldsymbol{a}$ 和 $\boldsymbol{b}$ 构成的平面**。
 
@@ -152,7 +152,7 @@ $\boldsymbol{a} \times \boldsymbol{b}$ 方向分别垂直于向量 $\boldsymbol{
 
 <img src="./_Resources/vector/vector_007.png" style="zoom:30%;" />
 
-#### 模（大小）
+**模（大小）**
 
 $\boldsymbol{a} \times \boldsymbol{b}$ 的模可以通过以下式子获得
 $$
@@ -170,9 +170,7 @@ $$
 \boldsymbol{i} \times \boldsymbol{i} = \boldsymbol{0},\quad \boldsymbol{j} \times \boldsymbol{j} = \boldsymbol{0},\quad \boldsymbol{k} \times \boldsymbol{k} = \boldsymbol{0}
 \end{array}
 $$
-<img src="./_Resources/vector/vector_009.png" style="zoom:30%;" />
-
-叉乘运算常见性质
+**叉乘运算常见性质**
 $$
 \begin{array}{lcl}
 \boldsymbol{a} \times \boldsymbol{a} = \boldsymbol{0} \\
@@ -183,28 +181,16 @@ k(\boldsymbol{a} \times \boldsymbol{b}) = k(\boldsymbol{a}) \times \boldsymbol{b
 \boldsymbol{a} \cdot (\boldsymbol{b} \times \boldsymbol{c}) = (\boldsymbol{a} \times \boldsymbol{b}) \cdot \boldsymbol{c}
 \end{array}
 $$
-三维直角坐标系中，可以用标准正交基表示向量 $\boldsymbol{a}$ 和 $\boldsymbol{b}$。
-$$
-\boldsymbol{a} = a_1\boldsymbol{i} + a_2\boldsymbol{j} + a_3\boldsymbol{k}, \quad \boldsymbol{b} = b_1\boldsymbol{i} + b_2\boldsymbol{j} + b_3\boldsymbol{k} \\
-\begin{align}
-\boldsymbol{a} \times \boldsymbol{b} &= (a_1\boldsymbol{i} + a_2\boldsymbol{j} + a_3\boldsymbol{k}) \times (b_1\boldsymbol{i} + b_2\boldsymbol{j} + b_3\boldsymbol{k}) \nonumber \\
-&= a_1b_1\boldsymbol{0} + a_1b_2\boldsymbol{k} + a_1b_3(-\boldsymbol{j}) \nonumber\\ 
-&+ a_2b_1(-\boldsymbol{k}) + a_2b_2\boldsymbol{0} + a_2b_3\boldsymbol{i} \nonumber\\
-&+ a_3b_1\boldsymbol{j} + a_3b_2(-\boldsymbol{i}) + a_3b_3\boldsymbol{0} \nonumber\\
-&= (a_2b_3 - a_3b_2)\boldsymbol{i} + (a_3b_1 - a_1b_3)\boldsymbol{j} + (a_1b_2 - a_2b_1)\boldsymbol{k} \nonumber
-\end{align}
-$$
+### 6. 逐项积
 
-### 逐项积
-
-**元素乘积**也叫**阿达玛乘积 `Hadamard product`**或**逐项积**，两个形状相同的矩阵，对应元素相乘得到形状相同的矩阵。
+**元素乘积**也叫**阿达玛乘积 `Hadamard product`**或**逐项积**。
 $$
 \boldsymbol{a} \odot \boldsymbol{b} 
 = \begin{bmatrix}a_1&a_2&\cdots&a_n\end{bmatrix}^T \odot \begin{bmatrix}b_1&b_2&\cdots&b_n\end{bmatrix}^T
 = \begin{bmatrix}a_1b_1 & a_2b_2 & \cdots & a_nb_n\end{bmatrix}^T
 $$
 
-### 张量积
+### 7. 张量积
 
 **张量积**又叫**克罗内克积`Kronecker product`**，两个列向量 $\boldsymbol{a}$ 和 $\boldsymbol{b}$ 的张量积 $\boldsymbol{a} \otimes \boldsymbol{b}$ 定义为
 $$
@@ -214,7 +200,7 @@ $$
 $$
 \boldsymbol{a} \otimes \boldsymbol{a} = \begin{bmatrix} a_1\\a_2\\ \vdots \\a_n \end{bmatrix}_{n \times 1} \otimes \begin{bmatrix} a_1\\a_2\\ \vdots \\a_n \end{bmatrix}_{n \times 1} = \boldsymbol{a}\boldsymbol{a}^T = \begin{bmatrix} a_1\\a_2\\ \vdots \\a_n \end{bmatrix} \begin{bmatrix} a_1\\a_2\\ \vdots \\a_n \end{bmatrix}^T = \begin{bmatrix} a_1a_1&a_1a_2&\cdots&a_1a_n \\ a_2a_1&a_2a_2&\cdots&a_2a_n \\ \vdots&\vdots&\ddots&\vdots \\ a_na_1&a_na_2&\cdots&a_na_n \end{bmatrix}
 $$
-张量积的一些性质
+**张量积常见性质**
 $$
 \begin{array}{lcl}
 (\boldsymbol{a} \otimes \boldsymbol{a})^T = \boldsymbol{a} \otimes \boldsymbol{a} \\
