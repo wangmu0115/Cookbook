@@ -2,8 +2,6 @@
 
 向量是**有方向的线段**，线段的长度代表**向量的大小**，箭头代表**向量的方向**。**起点**和**终点**相同的向量称为**零向量**，记作 $\boldsymbol{0}$。
 
-<img src="./_Resources/vector/vector_001.png" style="zoom:30%;" />
-
 **切向量**和**法向量**
 
 **行向量**和**列向量**
@@ -42,9 +40,7 @@ $$
 = \begin{bmatrix} a_1\\a_2\\\vdots\\a_n \end{bmatrix} \pm \begin{bmatrix} b_1\\b_2\\\vdots\\b_n \end{bmatrix}
 = \begin{bmatrix} a_1 \pm b_1\\a_2 \pm b_2\\\vdots\\a_n \pm b_n \end{bmatrix}
 $$
-几何视角：**平行四边形法则**和**三角形法则**
-
-<img src="./_Resources/vector/vector_002.png" style="zoom:30%;" />
+几何视角：**平行四边形法则**和**三角形法则**。
 
 两个向量的模和方向均相同，则**向量相同**；两个向量的模相同但方向相反，则**互为反向量**。两个向量的方向相同或相反，则**向量平行**。
 
@@ -145,8 +141,6 @@ $$
 **方向**
 
 $\boldsymbol{a} \times \boldsymbol{b}$ 方向分别垂直于向量 $\boldsymbol{a}$ 和 $\boldsymbol{b}$，即 $\boldsymbol{a} \times \boldsymbol{b}$ **垂直于向量 $\boldsymbol{a}$ 和 $\boldsymbol{b}$ 构成的平面**。
-
-<img src="./_Resources/vector/vector_006.png" style="zoom:30%;" />
 
 向量 $\boldsymbol{a}$、$\boldsymbol{b}$、$\boldsymbol{a} \times \boldsymbol{b}$ 和 $\boldsymbol{b} \times \boldsymbol{a}$ 的关系可以使用右手法则判断。
 
