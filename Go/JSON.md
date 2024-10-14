@@ -1,12 +1,101 @@
-https://go.dev/blog/json
+## JSON
 
-标准库：encoding/json，https://pkg.go.dev/encoding/json@go1.23.0
+### 1. 概览
 
-JSON标准：https://www.rfc-editor.org/rfc/rfc7159.html
+JSON(JavaScript Object Notation)是一种简单的数据交换格式。
 
-json.Marshal 将Go Values序列化成JSON
+- JSON标准 [RFC 7159](https://www.rfc-editor.org/rfc/rfc7159.html)
+- Go序列化/反序列化JSON标准库：[encoding/json](https://pkg.go.dev/encoding/json)
 
-json.Unmarshal 将JSON反序列化成Go Values
+```go
+func Marshal(v any) ([]byte, error) // 将Go值序列化成JSON
+
+func Unmarshal(data []byte, v any) error // 反序列化JSON数据并将结果保存在`v`中
+```
+
+### 2. 序列化/Encoding
+
+```go
+type Variable struct {
+	Name  string  `json:"name"`
+	Label *string `json:"label,omitempty"`
+	Type  int     `json:"type"`
+}
+type CustomVariable struct {
+	Variable
+	Multi   bool     `json:"multi"`
+	Options []string `json:"options"`
+}
+
+func main() {
+	v := Variable{Name: "gender", Type: 1}
+	cv := CustomVariable{Variable: v, Multi: false, Options: []string{"male", "female", "unknow"}}
+	b, err := json.Marshal(cv)
+	if err != nil {
+		fmt.Println(err)
+    return
+	}
+	// {"name":"gender","type":1,"multi":false,"options":["male","female","unknow"]}
+	fmt.Println(string(b))
+}
+```
+
+只有能够表示为有效JSON的数据结构才会被序列化，否则会返回`error`：
+
+- JSON对象**只支持string类型**的键，如果序列化map类型的Go值，则map类型的格式必须是`map[string]T`。
+- `channel`、`complex`、`function`类型无法被序列化。
+- **不支持循环数据结构**，会导致`Marshal`陷入无限循环。
+- 指针会被序列化为其指向的值，如果指针为`nil`则为`null`。
+- 只有**导出字段（大写字母开头的字段）**会被序列化在JSON对象中。
+
+### 3. 反序列化
+
+```go
+func main() {
+	vJson := `{"Name":"gender","type":null,"multi":false,"options":["male","female","unknow"]}`
+	var cv CustomVariable
+	err := json.Unmarshal([]byte(vJson), &cv)
+	if err != nil {
+		fmt.Println(err)
+		return
+	}
+	// {{gender <nil> 0} false [male female unknow]}
+	fmt.Println(cv)
+}
+```
+
+- 如果JSON对象的字段值为空，则反序列化的Go值对应的字段值为**字段类型默认空值**，如果不希望将`null`反序列化类型空值，则可以声明为指针类型，例如`Label`和`Type`字段。
+
+
+
+
+
+
+
+
+
+
+
+
+
+```json
+```
+
+
+
+
+
+
+
+
+
+
+
+### 4. References
+
+- [JSON and Go](https://go.dev/blog/json)
+
+
 
 
 

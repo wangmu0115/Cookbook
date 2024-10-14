@@ -1,11 +1,19 @@
 ## Promise
 
-Promise是值的**临时占位符**，该值可能已经存在或者是一个异步操作的结果。
+**`Promise`**对象表示异步操作最终完成（或失败）以及异步操作的结果值。本质上`Promise`是一个函数返回的对象，我们可以在它上面绑定回调函数，而不需要在一开始把回调函数作为参数传入这个函数了。
 
 ```js
-// fetch()函数返回一个代表异步操作结果的`Promise`对象
-const p = fetch('https://dog.ceo/api/breeds/list/all');
+getFileContentAsync("fileName.txt", function(error, result) {
+  if(error) {
+    throw error;
+  }
+});
+// 回调函数可能出现回调地狱，而且编码规范是通过约定实现，Promise可以将复杂的异步处理轻松地进行规范化
+const p = getFileContentAsyncPromise("fileName.txt");
+p.then((result) => {}).catch((error) => {})
 ```
+
+
 
 ### Promise的生命周期
 
@@ -105,6 +113,12 @@ Promise的对象构造器构建，构造器函数接受一个被称作执行器�
 
 
 
+
+
+
+
+
+# 参考资料
 
 
 
